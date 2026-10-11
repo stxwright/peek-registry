@@ -6,13 +6,17 @@ Reads registry.json for the registry id, writes:
   <out>/r/<id>/<version>.json   (canonical bundle per recipe)
 
 Canonical form: JSON with sorted keys and no insignificant whitespace.
-Index sequence: current Unix time (anti-rollback marker for clients).
+Index sequence: newest source-commit timestamp over recipes/ + registry.json
+(anti-rollback marker bound to content, not the build clock), wall clock
+only as fallback outside a git checkout. dist/ is a pure emitter artifact:
+r/ is wiped at the start so orphan and superseded bundles never survive.
 
 TODO(signing): emit index.json.sig (Ed25519 detached) once keys exist.
 """
 import argparse
 import hashlib
 import json
+import shutil
 import time
 from datetime import datetime, timezone
 from pathlib import Path
@@ -25,6 +29,29 @@ def canonical(data) -> bytes:
                       ensure_ascii=False).encode("utf-8")
 
 
+def source_sequence(root: Path) -> int:
+    """Newest commit timestamp over the published sources.
+
+    A wall clock lets a rebuilt old commit look fresh and defeat client
+    anti-rollback. Commit time only moves when content moves, so stale
+    content can never outrank what clients hold.
+    """
+    import subprocess
+
+    try:
+        out = subprocess.run(
+            ["git", "-C", str(root), "log", "-1", "--format=%ct",
+             "--", "recipes", "registry.json"],
+            capture_output=True, text=True, timeout=15, check=False)
+        ts = int((out.stdout or "").strip())
+        if ts > 0:
+            return ts
+    except Exception:
+        pass
+    print("note: git source timestamp unavailable, falling back to wall clock")
+    return int(time.time())
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--out", default="dist")
@@ -35,6 +62,11 @@ def main() -> int:
         registry = json.load(f)
 
     out = root / args.out
+    # dist/ is a pure build artifact: wipe r/ so orphan bundles (deleted
+    # recipes) and superseded versions never survive a rebuild.
+    rdir = out / "r"
+    if rdir.is_dir():
+        shutil.rmtree(rdir)
     recipe_files = sorted((root / "recipes").glob("*/recipe.yaml"))
     if not recipe_files:
         print("No recipes found in recipes/")
@@ -65,17 +97,17 @@ def main() -> int:
         })
 
     entries.sort(key=lambda e: e["id"])
-    now = int(time.time())
+    seq = source_sequence(root)
     index = {
         "format": 1,
         "registry_id": registry["id"],
-        "generated_at": datetime.fromtimestamp(now, tz=timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "sequence": now,
+        "generated_at": datetime.fromtimestamp(seq, tz=timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "sequence": seq,
         "recipes": entries,
     }
     (out / "index.json").write_text(
         json.dumps(index, sort_keys=True, indent=2) + "\n", encoding="utf-8")
-    print(f"Wrote {len(entries)} recipes to {out}/index.json (sequence {now})")
+    print(f"Wrote {len(entries)} recipes to {out}/index.json (sequence {seq})")
     return 0
 
 
