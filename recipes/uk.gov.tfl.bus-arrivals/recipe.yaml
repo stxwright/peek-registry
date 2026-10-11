@@ -1,0 +1,25 @@
+format: 2
+id: uk.gov.tfl.bus-arrivals
+version: 3
+name: London Bus Arrivals
+description: Live bus arrivals for a TfL bus stop.
+params:
+  stop: "150042025002"
+fetch:
+  url: "https://tfl.gov.uk/bus/stop/{stop}"
+  allow: ["tfl.gov.uk"]
+  every: 900
+  render: js
+  wait: "li.live-board-feed-item span.live-board-route > span"
+rows: "li.live-board-feed-item"
+fields:
+  stop_name: { sel: "#station-stops-and-piers", attr: "data-name", scope: page }
+  towards: { sel: "#station-stops-and-piers .headline-info p", scope: page }
+  route: "span.live-board-route > span"
+  destination: "span.train-destination"
+  eta: "span.live-board-eta"
+key: route
+limit: 5
+title: "{stop_name} {towards}"
+columns: [route, destination, eta]
+link: "https://tfl.gov.uk/bus/stop/{stop}"

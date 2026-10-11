@@ -1,0 +1,25 @@
+format: 2
+id: uk.co.nationalrail.departures
+version: 7
+name: National Rail Departures
+description: Live train departures and status between two UK rail stations.
+params:
+  from: crewe
+  to: edinburgh
+fetch:
+  url: "https://www.nationalrail.co.uk/live-trains/departures/{from}/{to}/"
+  allow: ["www.nationalrail.co.uk"]
+  every: 900
+  render: js
+  wait: "a[href*='/live-trains/details']"
+rows: "a[href*='/live-trains/details']"
+fields:
+  time: "h4 + div span:first-child"
+  status: "h4 + div span:nth-child(2)"
+  platform: "h4 + div + div span"
+  destination: "h3 > span:last-child"
+key: time
+limit: 5
+title: "{from} → {to}"
+columns: [time, destination, platform, status]
+link: "https://www.nationalrail.co.uk/live-trains/departures/{from}/{to}/"

@@ -1,0 +1,1 @@
+{"base_url": "https://stxwright.github.io/peek-registry/", "blocked_domains": [], "contact": "", "format": 1, "id": "peek-mvp", "name": "Peek MVP Registry", "policy": {"min_interval_s": 300}, "repo": "https://github.com/stxwright/peek-registry", "signing_keys": []}
