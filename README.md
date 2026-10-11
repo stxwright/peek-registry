@@ -8,15 +8,15 @@ Do not use for real users until `TODO(signing)` is done.
 
 - `registry.json` — id, `base_url`, policy. Update `base_url`/`repo` after creating the GitHub repo.
 - `recipes/<id>/recipe.yaml` — source of truth, folder name == `id`.
-- `scripts/validate.py` — schema + folder/version checks.
+- `scripts/validate_v2.py` — `format: 2` checks (required keys, folder == id,
+  version, params, fetch, rows/fields/key/limit, title/columns/link rules).
 - `scripts/build_index.py` — emits `dist/index.json` + `dist/r/<id>/<version>.json`.
-- `schemas/recipe.schema.json` — vendored copy of the spec schema.
 
 ## Local use
 
 ```
-pip install pyyaml jsonschema
-python3 scripts/validate.py
+pip install pyyaml
+python3 scripts/validate_v2.py
 python3 scripts/build_index.py --out dist
 python3 -m json.tool dist/index.json
 ```
