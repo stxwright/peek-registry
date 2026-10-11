@@ -1,0 +1,21 @@
+format: 2
+id: uk.gov.tfl.tube-status
+version: 1
+name: Tube Status
+description: Live Tube, Overground, Elizabeth line, DLR and Tram status.
+params: {}
+fetch:
+  url: https://tfl.gov.uk/tube-dlr-overground/status/
+  allow:
+  - tfl.gov.uk
+fields:
+  line: '[data-testid=''accordion-name'']'
+  status: '[data-testid=''line-status'']'
+columns:
+- line
+- status
+limit: 15
+rows: '#tfl-status-tube-tabpane-1 button[aria-expanded]'
+key: line
+title: Tube Status
+link: https://tfl.gov.uk/tube-dlr-overground/status/
