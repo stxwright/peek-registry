@@ -1,3 +1,8 @@
 dist/
 __pycache__/
 .venv/
+# Secrets must never be committed (ahead of signing work).
+*.key
+*.pem
+.env
+.env.*
