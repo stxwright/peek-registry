@@ -1,0 +1,31 @@
+format: 2
+id: uk.co.bbc.sport-football-table
+version: 1
+name: Football Table
+description: League table for a BBC Sport football competition.
+params:
+  competition: premier-league
+fetch:
+  url: https://www.bbc.co.uk/sport/football/{competition}/table
+  allow:
+  - www.bbc.co.uk
+  render: js
+  wait: table[data-testid='football-table']
+fields:
+  comp:
+    sel: h1
+    scope: page
+  team: td[aria-label='Team']
+  played: td[aria-label='Played']
+  gd: td[aria-label='Goal Difference']
+  points: td[aria-label='Points']
+columns:
+- team
+- played
+- gd
+- points
+limit: 20
+rows: table[data-testid='football-table'] tbody tr
+key: team
+title: '{comp}'
+link: https://www.bbc.co.uk/sport/football/{competition}/table
