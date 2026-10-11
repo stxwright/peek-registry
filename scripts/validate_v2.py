@@ -117,8 +117,36 @@ def validate(data, folder, known_versions):
         check_selector(fetch["wait"], "fetch.wait", errors)
 
     rows = data.get("rows")
-    if rows is not None:
-        check_selector(rows, "rows", errors)
+    group_values: set[str] = set()
+    if isinstance(rows, str) or rows is None:
+        if rows is not None:
+            check_selector(rows, "rows", errors)
+    elif isinstance(rows, list):
+        if not (1 <= len(rows) <= 10):
+            errors.append("rows list must hold 1..10 groups")
+        else:
+            for i, group in enumerate(rows):
+                where = f"rows[{i}]"
+                if not isinstance(group, dict):
+                    errors.append(f"{where} must be a mapping")
+                    continue
+                sel = group.get("sel")
+                if not isinstance(sel, str):
+                    errors.append(f"{where}.sel is required")
+                else:
+                    check_selector(sel, f"{where}.sel", errors)
+                values = group.get("values", {})
+                if not isinstance(values, dict) or not all(
+                    isinstance(k, str) and isinstance(v, str) for k, v in values.items()
+                ):
+                    errors.append(f"{where}.values must be a map of string -> string")
+                else:
+                    group_values.update(values.keys())
+                for gk in group:
+                    if gk not in ("sel", "values"):
+                        errors.append(f"{where}: unknown key {gk!r}")
+    else:
+        errors.append("rows must be a selector string or a list of groups")
 
     fields = data.get("fields")
     if not isinstance(fields, dict) or not fields:
@@ -155,19 +183,21 @@ def validate(data, folder, known_versions):
 
     columns = data.get("columns")
     if not isinstance(columns, list) or not (1 <= len(columns) <= 10) or not all(
-        isinstance(c, str) and c in fields and is_row_field(fields[c]) for c in columns
+        isinstance(c, str) and (
+            (c in fields and is_row_field(fields[c])) or c in group_values)
+        for c in columns
     ):
-        errors.append("columns is required and must list 1..10 row-scoped field names")
+        errors.append("columns is required and must list 1..10 row-scoped field or group-value names")
     title = data.get("title", "")
     if title is not None and not isinstance(title, str):
         errors.append("title must be a string")
 
-    # Every {ref} must resolve to a param or field.
-    known = set(params) | set(fields)
+    # Every {ref} must resolve to a param, field, or group value.
+    known = set(params) | set(fields) | group_values
     for label, tmpl in [("title", title or "")]:
         for ref in REF_RE.findall(tmpl):
             if ref not in known:
-                errors.append(f"{label}: {{{ref}}} is not a param or field")
+                errors.append(f"{label}: {{{ref}}} is not a param, field, or group value")
 
     link = data.get("link")
     if link is not None:
