@@ -1,6 +1,6 @@
 format: 2
 id: uk.gov.tfl.bus-arrivals
-version: 3
+version: 4
 name: London Bus Arrivals
 description: Live bus arrivals for a TfL bus stop.
 params:
@@ -19,7 +19,7 @@ fields:
   destination: "span.train-destination"
   eta: "span.live-board-eta"
 key: route
-limit: 5
+limit: 7
 title: "{stop_name} {towards}"
 columns: [route, destination, eta]
 link: "https://tfl.gov.uk/bus/stop/{stop}"

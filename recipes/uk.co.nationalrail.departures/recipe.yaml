@@ -1,6 +1,6 @@
 format: 2
 id: uk.co.nationalrail.departures
-version: 7
+version: 8
 name: National Rail Departures
 description: Live train departures and status between two UK rail stations.
 params:
@@ -19,7 +19,7 @@ fields:
   platform: "h4 + div + div span"
   destination: "h3 > span:last-child"
 key: time
-limit: 5
+limit: 10
 title: "{from} → {to}"
 columns: [time, destination, platform, status]
 link: "https://www.nationalrail.co.uk/live-trains/departures/{from}/{to}/"
