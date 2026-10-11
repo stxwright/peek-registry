@@ -1,6 +1,6 @@
 format: 2
 id: com.heathrow.departures
-version: 1
+version: 2
 name: Heathrow Departures
 description: Live departing flights from Heathrow.
 params: {}
@@ -18,7 +18,7 @@ fields:
   terminal: .col-terminal
   status: .col-status
 key: flight
-limit: 8
+limit: 18
 rows: "div.airline-listing-table > a"
 title: Heathrow Departures
 columns: [time, flight, dest, terminal, status]
