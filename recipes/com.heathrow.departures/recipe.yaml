@@ -1,0 +1,25 @@
+format: 2
+id: com.heathrow.departures
+version: 1
+name: Heathrow Departures
+description: Live departing flights from Heathrow.
+params: {}
+fetch:
+  url: https://www.heathrow.com/departures
+  allow:
+  - www.heathrow.com
+  every: 900
+  render: js
+  wait: ".airline-listing-line-item .col-scheduled"
+fields:
+  time: .col-scheduled
+  flight: .col-flight
+  dest: .col-arriving-from
+  terminal: .col-terminal
+  status: .col-status
+key: flight
+limit: 8
+rows: "div.airline-listing-table > a"
+title: Heathrow Departures
+columns: [time, flight, dest, terminal, status]
+link: https://www.heathrow.com/departures
