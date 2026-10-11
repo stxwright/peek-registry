@@ -1,0 +1,33 @@
+format: 2
+id: uk.co.bbc.weather
+version: 1
+name: BBC Weather
+description: Daily forecast for a BBC Weather location.
+params:
+  loc: '2636841'
+fetch:
+  url: https://www.bbc.co.uk/weather/{loc}
+  allow:
+  - www.bbc.co.uk
+  render: js
+  wait: li.wr-day
+fields:
+  place:
+    sel: title
+    scope: page
+  day:
+    sel: .wr-day__title
+    attr: aria-label
+  summary: .wr-day__weather-type-description
+  high: .wr-day-temperature__high-value
+  low: .wr-day-temperature__low-value
+columns:
+- day
+- summary
+- high
+- low
+limit: 7
+rows: li.wr-day
+key: day
+title: '{place}'
+link: https://www.bbc.co.uk/weather/{loc}
