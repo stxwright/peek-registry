@@ -1,6 +1,6 @@
 format: 2
 id: uk.co.nationalrail.departures
-version: 8
+version: 9
 name: National Rail Departures
 description: Live train departures and status between two UK rail stations.
 params:
@@ -10,7 +10,6 @@ fetch:
   url: "https://www.nationalrail.co.uk/live-trains/departures/{from}/{to}/"
   allow: ["www.nationalrail.co.uk"]
   every: 900
-  render: js
   wait: "a[href*='/live-trains/details']"
 rows: "a[href*='/live-trains/details']"
 fields:

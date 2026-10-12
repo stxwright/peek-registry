@@ -1,13 +1,12 @@
 format: 2
 id: com.yahoo.finance.uk-markets
-version: 7
+version: 8
 name: Yahoo Finance UK Markets
 description: Live UK market indices and currency exchange rates.
 fetch:
   url: "https://uk.finance.yahoo.com/"
   allow: ["uk.finance.yahoo.com"]
   every: 900
-  render: js
   wait: "fin-streamer[data-symbol='^FTSE']"
 rows: "[data-testid='ticker-list-item']:has(fin-streamer[data-symbol='^FTSE']), [data-testid='ticker-list-item']:has(fin-streamer[data-symbol='^FTMC']), [data-testid='ticker-list-item']:has(fin-streamer[data-symbol='GBPUSD=X']), [data-testid='ticker-list-item']:has(fin-streamer[data-symbol='GBPEUR=X'])"
 fields:

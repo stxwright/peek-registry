@@ -1,6 +1,6 @@
 format: 2
 id: uk.gov.tfl.bus-arrivals
-version: 4
+version: 5
 name: London Bus Arrivals
 description: Live bus arrivals for a TfL bus stop.
 params:
@@ -9,7 +9,6 @@ fetch:
   url: "https://tfl.gov.uk/bus/stop/{stop}"
   allow: ["tfl.gov.uk"]
   every: 900
-  render: js
   wait: "li.live-board-feed-item span.live-board-route > span"
 rows: "li.live-board-feed-item"
 fields:

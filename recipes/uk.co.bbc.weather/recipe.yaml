@@ -1,6 +1,6 @@
 format: 2
 id: uk.co.bbc.weather
-version: 1
+version: 2
 name: BBC Weather
 description: Daily forecast for a BBC Weather location.
 params:
@@ -9,7 +9,6 @@ fetch:
   url: https://www.bbc.co.uk/weather/{loc}
   allow:
   - www.bbc.co.uk
-  render: js
   wait: li.wr-day
 fields:
   place:

@@ -1,6 +1,6 @@
 format: 2
 id: com.heathrow.departures
-version: 2
+version: 3
 name: Heathrow Departures
 description: Live departing flights from Heathrow.
 params: {}
@@ -9,7 +9,6 @@ fetch:
   allow:
   - www.heathrow.com
   every: 900
-  render: js
   wait: ".airline-listing-line-item .col-scheduled"
 fields:
   time: .col-scheduled

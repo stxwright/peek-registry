@@ -1,6 +1,6 @@
 format: 2
 id: uk.co.bbc.sport-football-table
-version: 1
+version: 2
 name: Football Table
 description: League table for a BBC Sport football competition.
 params:
@@ -9,7 +9,6 @@ fetch:
   url: https://www.bbc.co.uk/sport/football/{competition}/table
   allow:
   - www.bbc.co.uk
-  render: js
   wait: table[data-testid='football-table']
 fields:
   comp:
