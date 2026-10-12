@@ -1,0 +1,26 @@
+format: 2
+id: uk.co.bbc.sport-f1-standings
+version: 1
+name: F1 Standings
+description: FIA Formula 1 driver standings from BBC Sport.
+params: {}
+fetch:
+  url: https://www.bbc.co.uk/sport/formula1/standings
+  allow:
+  - www.bbc.co.uk
+fields:
+  comp:
+    sel: h1
+    scope: page
+  driver: td:nth-child(2) span[class*='FullName']:not([class*='Team'])
+  wins: td:nth-child(4) span[aria-hidden]
+  points: td:nth-child(5) span[aria-hidden]
+columns:
+- driver
+- wins
+- points
+limit: 23
+rows: table[aria-label="Formula 1 Drivers' Standings"] tbody tr
+key: driver
+title: '{comp}'
+link: https://www.bbc.co.uk/sport/formula1/standings
