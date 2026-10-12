@@ -1,0 +1,31 @@
+format: 2
+id: uk.co.bbc.sport-cricket-table
+version: 1
+name: Cricket Table
+description: County Championship table from BBC Sport.
+params:
+  competition: mens-england-division-one-multi-day
+fetch:
+  url: https://www.bbc.co.uk/sport/cricket/{competition}/table
+  allow:
+  - www.bbc.co.uk
+fields:
+  comp:
+    sel: h1
+    scope: page
+  team: td:nth-child(2)
+  played: td:nth-child(3)
+  won: td:nth-child(5)
+  drawn: td:nth-child(9)
+  points: td:nth-child(15)
+columns:
+- team
+- played
+- won
+- drawn
+- points
+limit: 10
+rows: table[aria-label='Rothesay County Championship Division 1 Table'] tbody tr
+key: team
+title: '{comp}'
+link: https://www.bbc.co.uk/sport/cricket/{competition}/table
