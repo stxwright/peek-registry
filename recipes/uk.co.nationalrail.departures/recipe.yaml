@@ -1,11 +1,16 @@
 format: 2
 id: uk.co.nationalrail.departures
-version: 9
+version: 10
 name: National Rail Departures
 description: Live train departures and status between two UK rail stations.
 params:
-  from: crewe
-  to: edinburgh
+  from:
+    default: crewe
+    help: Departure station slug as it appears in nationalrail.co.uk
+      live-departure URLs, e.g. crewe.
+  to:
+    default: edinburgh
+    help: Destination station slug, same form as from, e.g. edinburgh.
 fetch:
   url: "https://www.nationalrail.co.uk/live-trains/departures/{from}/{to}/"
   allow: ["www.nationalrail.co.uk"]

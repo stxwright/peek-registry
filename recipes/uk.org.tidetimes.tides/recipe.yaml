@@ -1,10 +1,13 @@
 format: 2
 id: uk.org.tidetimes.tides
-version: 1
-name: Tide Times
-description: Today's high and low tide times for a UK coastal location. Not for navigation.
+version: 2
+name: UK Tide Times
+description: Today's high and low tide times for a UK coastal location (709 locations). Not for navigation.
 params:
-  location: southend-on-sea
+  location:
+    default: southend-on-sea
+    help: Coastal slug as it appears in tidetimes.org.uk URLs, e.g.
+      southend-on-sea in southend-on-sea-tide-times.
 fetch:
   url: https://www.tidetimes.org.uk/{location}-tide-times
   allow:

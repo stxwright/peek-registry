@@ -1,10 +1,26 @@
 format: 2
 id: uk.co.bbc.sport-football-table
-version: 2
+version: 3
 name: Football Table
 description: League table for a BBC Sport football competition.
 params:
-  competition: premier-league
+  competition:
+    default: premier-league
+    options:
+    - value: premier-league
+      label: Premier League
+    - value: scottish-premiership
+      label: Scottish Premiership
+    - value: championship
+      label: Championship
+    - value: womens-super-league
+      label: Women's Super League
+    - value: league-one
+      label: League One
+    - value: league-two
+      label: League Two
+    help: Competition slug from BBC Sport football table URLs (all six
+      verified live).
 fetch:
   url: https://www.bbc.co.uk/sport/football/{competition}/table
   allow:

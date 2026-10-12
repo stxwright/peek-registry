@@ -1,10 +1,13 @@
 format: 2
 id: uk.gov.tfl.bus-arrivals
-version: 5
+version: 7
 name: London Bus Arrivals
 description: Live bus arrivals for a TfL bus stop.
 params:
-  stop: "150042025002"
+  stop:
+    default: "490014050D"
+    help: TfL stop code, e.g. 490014050D (Victoria Bus Station). Find it
+      on the stop's tfl.gov.uk page or bustimes.org.
 fetch:
   url: "https://tfl.gov.uk/bus/stop/{stop}"
   allow: ["tfl.gov.uk"]

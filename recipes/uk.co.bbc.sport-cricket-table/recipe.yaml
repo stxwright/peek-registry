@@ -1,10 +1,33 @@
 format: 2
 id: uk.co.bbc.sport-cricket-table
-version: 1
+version: 2
 name: Cricket Table
 description: County Championship table from BBC Sport.
 params:
-  competition: mens-england-division-one-multi-day
+  competition:
+    default: mens-england-division-one-multi-day
+    options:
+    - value: mens-england-division-one-multi-day
+      label: County Championship Div 1
+    - value: mens-england-division-two-multi-day
+      label: County Championship Div 2
+    - value: mens-england-the-hundred
+      label: The Hundred Men
+    - value: womens-england-the-hundred
+      label: The Hundred Women
+    - value: mens-england-twenty20
+      label: T20 Blast Men
+    - value: womens-england-twenty20
+      label: T20 Blast Women
+    - value: mens-england-one-day
+      label: One Day Cup Men
+    - value: womens-england-one-day
+      label: One Day Cup Women
+    - value: womens-england-tier-two-one-day
+      label: One Day Cup Women League 2
+    help: Competition slug from BBC Sport cricket table URLs (all nine
+      verified live). Short-format tables show ties under Drawn. Blast
+      and One Day Cup group-stage tables are not listed.
 fetch:
   url: https://www.bbc.co.uk/sport/cricket/{competition}/table
   allow:
@@ -25,7 +48,7 @@ columns:
 - drawn
 - points
 limit: 10
-rows: table[aria-label='Rothesay County Championship Division 1 Table'] tbody tr
+rows: table[data-testid='sport-table'] tbody tr
 key: team
 title: '{comp}'
 link: https://www.bbc.co.uk/sport/cricket/{competition}/table

@@ -1,10 +1,13 @@
 format: 2
 id: uk.co.bbc.weather
-version: 2
+version: 3
 name: BBC Weather
 description: Daily forecast for a BBC Weather location.
 params:
-  loc: '2636841'
+  loc:
+    default: '2636841'
+    help: BBC Weather location ID, taken from the location page URL
+      (bbc.co.uk/weather/<ID>).
 fetch:
   url: https://www.bbc.co.uk/weather/{loc}
   allow:

@@ -1,10 +1,31 @@
 format: 2
 id: uk.co.bbc.sport-rugby-table
-version: 1
+version: 2
 name: Rugby Table
 description: League table for a BBC Sport rugby union competition.
 params:
-  competition: english-premiership
+  competition:
+    default: english-premiership
+    options:
+    - value: english-premiership
+      label: English Premiership
+    - value: six-nations
+      label: Six Nations
+    - value: top-14
+      label: Top 14
+    - value: pro-tournament
+      label: United Rugby Championship
+    - value: super-rugby
+      label: Super Rugby
+    - value: the-english-championship
+      label: English Championship
+    - value: rugby-championship
+      label: The Rugby Championship
+    - value: english-national-league-one
+      label: National League 1
+    help: Competition slug from BBC Sport rugby table URLs (all eight
+      verified live). Nations Championship excluded (two hemisphere
+      tables); World Cup is event-only.
 fetch:
   url: https://www.bbc.co.uk/sport/rugby-union/{competition}/table
   allow:
@@ -24,7 +45,7 @@ columns:
 - won
 - lost
 - points
-limit: 12
+limit: 16
 rows: table tbody tr
 key: team
 title: '{comp}'
