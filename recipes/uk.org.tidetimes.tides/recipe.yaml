@@ -1,0 +1,27 @@
+format: 2
+id: uk.org.tidetimes.tides
+version: 1
+name: Tide Times
+description: Today's high and low tide times for a UK coastal location. Not for navigation.
+params:
+  location: southend-on-sea
+fetch:
+  url: https://www.tidetimes.org.uk/{location}-tide-times
+  allow:
+  - www.tidetimes.org.uk
+fields:
+  place:
+    sel: td#rcol h1
+    scope: page
+  type: td:nth-child(1)
+  time: td:nth-child(2)
+  height: td:nth-child(3)
+columns:
+- type
+- time
+- height
+limit: 4
+rows: table#tidetimes div#tides table tbody tr:nth-child(n+2):nth-child(-n+5)
+key: time
+title: '{place}'
+link: https://www.tidetimes.org.uk/{location}-tide-times
