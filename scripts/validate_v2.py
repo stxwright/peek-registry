@@ -13,9 +13,8 @@ v2 recipe shape:
   fetch:
     url: "https://.../{param}/"  # placeholders only after host
     allow: [hosts]               # >= 1, https only
-    every: <seconds>             # default 900, >= 300 (>= 900 with render: js)
-    render: static | js          # default static
-    wait: "<css>"                # render: js only
+    every: <seconds>             # default 900, >= 900 (all recipes render)
+    wait: "<css>"                # readiness selector, any recipe
   rows: "<css>"                  # optional; absent = single item (document)
   fields: {name: "<css>" | {sel, attr}}   # >= 1; {sel} string or
                                           # {sel, attr?, scope?}; scope is
@@ -104,15 +103,10 @@ def validate(data, folder, known_versions):
     ):
         errors.append("fetch.allow must list >= 1 literal hostnames")
     every = fetch.get("every", 900)
-    if not isinstance(every, int) or every < 300:
-        errors.append(f"fetch.every must be >= 300, got {every!r}")
-    render = fetch.get("render", "static")
-    if render not in ("static", "js"):
-        errors.append(f"fetch.render must be static|js, got {render!r}")
-    if render == "js" and every < 900:
-        errors.append("fetch.every must be >= 900 with render: js")
-    if "wait" in fetch and render != "js":
-        errors.append("fetch.wait only applies to render: js")
+    if not isinstance(every, int) or every < 900:
+        errors.append(f"fetch.every must be >= 900, got {every!r}")
+    if "render" in fetch:
+        errors.append("fetch.render was removed: every recipe renders via WebView")
     if "wait" in fetch:
         check_selector(fetch["wait"], "fetch.wait", errors)
 
