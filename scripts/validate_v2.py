@@ -9,7 +9,8 @@ v2 recipe shape:
   version: <int >= 1>
   name: <= 60 chars
   description: <= 280 chars
-  params: {key: default}          # optional, plain strings
+  params: {key: default}          # optional, plain strings or
+                                           # {default, options:[{value,label}], help}
   fetch:
     url: "https://.../{param}/"  # placeholders only after host
     allow: [hosts]               # >= 1, https only
@@ -75,11 +76,40 @@ def validate(data, folder, known_versions):
         errors.append("description must be 1..280 chars")
 
     params = data.get("params", {})
-    if not isinstance(params, dict) or not all(
-        isinstance(k, str) and isinstance(v, str) for k, v in params.items()
-    ):
-        errors.append("params must be a map of string -> string")
+    if not isinstance(params, dict):
+        errors.append("params must be a map")
         params = {}
+    else:
+        for k, v in params.items():
+            if not isinstance(k, str):
+                errors.append("params keys must be strings")
+                continue
+            if isinstance(v, str):
+                continue
+            if not isinstance(v, dict):
+                errors.append(f"params.{k} must be a string or descriptor")
+                continue
+            if not isinstance(v.get("default"), str):
+                errors.append(f"params.{k}.default is required and must be a string")
+            for dk in v:
+                if dk not in ("default", "options", "help"):
+                    errors.append(f"params.{k}: unknown key {dk!r}")
+            if "options" in v:
+                opts = v["options"]
+                if (not isinstance(opts, list) or not opts or not all(
+                    isinstance(o, dict) and isinstance(o.get("value"), str)
+                    and isinstance(o.get("label"), str) for o in opts
+                )):
+                    errors.append(f"params.{k}.options must be a non-empty list of "
+                                  f"{{value, label}}")
+                else:
+                    values = [o["value"] for o in opts]
+                    if len(set(values)) != len(values):
+                        errors.append(f"params.{k}.options values must be unique")
+                    if isinstance(v.get("default"), str) and v["default"] not in values:
+                        errors.append(f"params.{k}.default must be one of options")
+            if "help" in v and not isinstance(v["help"], str):
+                errors.append(f"params.{k}.help must be a string")
 
     fetch = data.get("fetch")
     if not isinstance(fetch, dict):
