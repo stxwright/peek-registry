@@ -1,0 +1,31 @@
+format: 2
+id: uk.co.bbc.sport-rugby-table
+version: 1
+name: Rugby Table
+description: League table for a BBC Sport rugby union competition.
+params:
+  competition: english-premiership
+fetch:
+  url: https://www.bbc.co.uk/sport/rugby-union/{competition}/table
+  allow:
+  - www.bbc.co.uk
+fields:
+  comp:
+    sel: h1
+    scope: page
+  team: td:nth-child(2)
+  played: td:nth-child(3) span[aria-hidden]
+  won: td:nth-child(5) span[aria-hidden]
+  lost: td:nth-child(7) span[aria-hidden]
+  points: td:nth-child(15) span[aria-hidden]
+columns:
+- team
+- played
+- won
+- lost
+- points
+limit: 12
+rows: table tbody tr
+key: team
+title: '{comp}'
+link: https://www.bbc.co.uk/sport/rugby-union/{competition}/table
