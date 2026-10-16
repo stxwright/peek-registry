@@ -1,0 +1,45 @@
+format: 2
+id: uk.co.bbc.sport-nfl-table
+version: 1
+name: NFL Standings
+description: 'NFL standings by division: won, lost and win percentage for all 32 teams.'
+params: {}
+fetch:
+  url: https://www.bbc.co.uk/sport/american-football/nfl/table
+  allow:
+  - www.bbc.co.uk
+  wait: table[data-testid='sport-table']
+fields:
+  team: td:nth-child(2)
+  wins: td:nth-child(5) span[aria-hidden]
+  losses: td:nth-child(7) span[aria-hidden]
+  pct: td:nth-child(11) span[aria-hidden]
+columns:
+- group
+- team
+- wins
+- losses
+- pct
+limit: 32
+# One group per division table; the division name is baked into each table's
+# aria-label, so no positional indices to drift.
+rows:
+- sel: table[aria-label='NFL, AFC East Table'] tbody tr
+  values: {group: AFC East}
+- sel: table[aria-label='NFL, AFC North Table'] tbody tr
+  values: {group: AFC North}
+- sel: table[aria-label='NFL, AFC South Table'] tbody tr
+  values: {group: AFC South}
+- sel: table[aria-label='NFL, AFC West Table'] tbody tr
+  values: {group: AFC West}
+- sel: table[aria-label='NFL, NFC East Table'] tbody tr
+  values: {group: NFC East}
+- sel: table[aria-label='NFL, NFC North Table'] tbody tr
+  values: {group: NFC North}
+- sel: table[aria-label='NFL, NFC South Table'] tbody tr
+  values: {group: NFC South}
+- sel: table[aria-label='NFL, NFC West Table'] tbody tr
+  values: {group: NFC West}
+key: team
+title: NFL Standings
+link: https://www.bbc.co.uk/sport/american-football/nfl/table
