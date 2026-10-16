@@ -1,0 +1,47 @@
+format: 2
+id: com.yahoo.finance.multi-quotes
+version: 1
+name: Yahoo Finance Multi-Quotes
+description: Live price, change and day range for any Yahoo tickers — stocks,
+  indices, currencies, crypto.
+params:
+  tickers:
+    default: GOOG,VOD.L,^FTSE,GBPUSD=X,BTC-USD
+    options:
+    - value: GOOG,VOD.L,^FTSE,GBPUSD=X,BTC-USD
+      label: Starter mix (stocks, index, currency, crypto)
+    - value: GOOG,VOD.L,7974.T
+      label: Stocks (Google, Vodafone, Nintendo)
+    - value: "^FTSE,^FTMC,GBPUSD=X,GBPEUR=X"
+      label: UK Markets (indices and FX)
+    - value: AAPL,MSFT,TSLA
+      label: US tech (Apple, Microsoft, Tesla)
+    - value: "^GSPC,^FTSE,^N225,^GDAXI"
+      label: World indices (US, UK, Japan, Germany)
+    - value: BTC-USD,ETH-USD
+      label: Crypto (Bitcoin, Ethereum)
+    help: Comma-separated Yahoo symbols — pick a preset or type your own, e.g.
+      GOOG (US stock), VOD.L (UK stock), ^FTSE (index), GBPUSD=X (currency),
+      BTC-USD (crypto).
+fetch:
+  url: https://uk.finance.yahoo.com/quotes/{tickers}/view/v1
+  allow:
+  - uk.finance.yahoo.com
+  wait: div[data-testid='multi-quote-table']
+fields:
+  ticker: td[data-testid-cell="symbol"]
+  price: td[data-testid-cell="intradayprice"]
+  change: td[data-testid-cell="intradaypricechange"]
+  change_pct: td[data-testid-cell="percentchange"]
+  day_range: td[data-testid-cell="regularMarketDayRange"]
+columns:
+- ticker
+- price
+- change
+- change_pct
+- day_range
+limit: 10
+rows: div[data-testid='multi-quote-table'] table tbody tr
+key: ticker
+title: Multi quotes
+link: https://uk.finance.yahoo.com/quotes/{tickers}/view/v1
