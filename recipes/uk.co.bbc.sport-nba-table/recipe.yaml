@@ -1,0 +1,41 @@
+format: 2
+id: uk.co.bbc.sport-nba-table
+version: 1
+name: NBA Standings
+description: 'NBA standings by division: won, lost and win percentage for all 30 teams.'
+params: {}
+fetch:
+  url: https://www.bbc.co.uk/sport/basketball/nba/table
+  allow:
+  - www.bbc.co.uk
+  wait: table[data-testid='sport-table']
+fields:
+  team: td:nth-child(2)
+  wins: td:nth-child(5) span[aria-hidden]
+  losses: td:nth-child(7) span[aria-hidden]
+  pct: td:nth-child(11) span[aria-hidden]
+columns:
+- group
+- team
+- wins
+- losses
+- pct
+limit: 30
+# One group per division table; the division is baked into each table's
+# aria-label, so no positional indices to drift.
+rows:
+- sel: table[aria-label='NBA, Eastern Conference Atlantic Table'] tbody tr
+  values: {group: Atlantic}
+- sel: table[aria-label='NBA, Eastern Conference Central Table'] tbody tr
+  values: {group: Central}
+- sel: table[aria-label='NBA, Eastern Conference Southeast Table'] tbody tr
+  values: {group: Southeast}
+- sel: table[aria-label='NBA, Western Conference Northwest Table'] tbody tr
+  values: {group: Northwest}
+- sel: table[aria-label='NBA, Western Conference Pacific Table'] tbody tr
+  values: {group: Pacific}
+- sel: table[aria-label='NBA, Western Conference Southwest Table'] tbody tr
+  values: {group: Southwest}
+key: team
+title: NBA Standings
+link: https://www.bbc.co.uk/sport/basketball/nba/table
