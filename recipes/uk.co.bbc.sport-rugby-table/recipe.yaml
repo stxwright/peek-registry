@@ -1,6 +1,6 @@
 format: 2
 id: uk.co.bbc.sport-rugby-table
-version: 2
+version: 3
 name: Rugby Table
 description: League table for a BBC Sport rugby union competition.
 params:
@@ -30,6 +30,7 @@ fetch:
   url: https://www.bbc.co.uk/sport/rugby-union/{competition}/table
   allow:
   - www.bbc.co.uk
+  wait: table[data-testid='sport-table']
 fields:
   comp:
     sel: h1

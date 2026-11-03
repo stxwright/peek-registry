@@ -1,6 +1,6 @@
 format: 2
 id: uk.co.bbc.sport-f1-standings
-version: 1
+version: 2
 name: F1 Standings
 description: FIA Formula 1 driver standings from BBC Sport.
 params: {}
@@ -8,6 +8,7 @@ fetch:
   url: https://www.bbc.co.uk/sport/formula1/standings
   allow:
   - www.bbc.co.uk
+  wait: table[aria-label="Formula 1 Drivers' Standings"]
 fields:
   comp:
     sel: h1

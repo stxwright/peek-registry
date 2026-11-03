@@ -1,6 +1,6 @@
 format: 2
 id: uk.co.bbc.sport-cricket-table
-version: 2
+version: 3
 name: Cricket Table
 description: County Championship table from BBC Sport.
 params:
@@ -32,6 +32,7 @@ fetch:
   url: https://www.bbc.co.uk/sport/cricket/{competition}/table
   allow:
   - www.bbc.co.uk
+  wait: table[data-testid='sport-table']
 fields:
   comp:
     sel: h1

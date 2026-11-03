@@ -1,6 +1,6 @@
 format: 2
 id: uk.org.tidetimes.tides
-version: 2
+version: 3
 name: UK Tide Times
 description: Today's high and low tide times for a UK coastal location (709 locations). Not for navigation.
 params:
@@ -12,6 +12,7 @@ fetch:
   url: https://www.tidetimes.org.uk/{location}-tide-times
   allow:
   - www.tidetimes.org.uk
+  wait: table#tidetimes
 fields:
   place:
     sel: td#rcol h1

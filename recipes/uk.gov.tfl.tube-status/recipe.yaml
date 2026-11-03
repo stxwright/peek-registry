@@ -1,6 +1,6 @@
 format: 2
 id: uk.gov.tfl.tube-status
-version: 1
+version: 2
 name: Tube Status
 description: Live Tube, Overground, Elizabeth line, DLR and Tram status.
 params: {}
@@ -8,6 +8,7 @@ fetch:
   url: https://tfl.gov.uk/tube-dlr-overground/status/
   allow:
   - tfl.gov.uk
+  wait: '#tfl-status-tube-tabpane-1 button[aria-expanded]'
 fields:
   line: '[data-testid=''accordion-name'']'
   status: '[data-testid=''line-status'']'

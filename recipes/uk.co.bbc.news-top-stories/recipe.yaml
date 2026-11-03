@@ -1,6 +1,6 @@
 format: 2
 id: uk.co.bbc.news-top-stories
-version: 1
+version: 2
 name: BBC Top Stories
 description: Top headlines from BBC News.
 params: {}
@@ -8,6 +8,7 @@ fetch:
   url: https://www.bbc.co.uk/news
   allow:
   - www.bbc.co.uk
+  wait: '[data-testid=''promo'']'
 fields:
   headline: h3
 columns:
