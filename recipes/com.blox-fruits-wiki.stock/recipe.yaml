@@ -1,6 +1,6 @@
 format: 2
 id: com.blox-fruits-wiki.stock
-version: 3
+version: 4
 name: Blox Fruit Stock
 description: Current Normal and Mirage Dealer stock in Blox Fruits.
 params: {}
@@ -8,7 +8,7 @@ fetch:
   url: https://blox-fruits-wiki.com/wiki/stock/
   allow:
   - blox-fruits-wiki.com
-  wait: '#current-stock div[style*=''width:118px'']'
+  wait: '#current-stock div:has(> a[href^=''/wiki/''] > img)'
 fields:
   fruit: a:not(:has(img))
   price: span:has(img[alt='Money'])
@@ -18,10 +18,10 @@ columns:
 - price
 limit: 20
 rows:
-- sel: '#current-stock div[style*=''width:118px'']'
+- sel: '#current-stock div:has(> a[href^=''/wiki/''] > img)'
   values:
     dealer: Normal
-- sel: '#current-mirage-stock div[style*=''width:118px'']'
+- sel: '#current-mirage-stock div:has(> a[href^=''/wiki/''] > img)'
   values:
     dealer: Mirage
 key: fruit
