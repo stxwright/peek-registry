@@ -1,6 +1,6 @@
 format: 2
 id: com.yahoo.finance.multi-quotes
-version: 1
+version: 2
 name: Yahoo Finance Multi-Quotes
 description: Live price, change and day range for any Yahoo tickers — stocks,
   indices, currencies, crypto.
@@ -30,9 +30,9 @@ fetch:
   wait: div[data-testid='multi-quote-table']
 fields:
   ticker: td[data-testid-cell="symbol"]
-  price: td[data-testid-cell="intradayprice"]
-  change: td[data-testid-cell="intradaypricechange"]
-  change_pct: td[data-testid-cell="percentchange"]
+  price: td[data-testid-cell="full_day_price"]
+  change: td[data-testid-cell="full_day_change"]
+  change_pct: td[data-testid-cell="full_day_change_percent"]
   day_range: td[data-testid-cell="regularMarketDayRange"]
 columns:
 - ticker
