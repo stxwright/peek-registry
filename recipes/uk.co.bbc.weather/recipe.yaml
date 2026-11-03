@@ -1,6 +1,6 @@
 format: 2
 id: uk.co.bbc.weather
-version: 3
+version: 4
 name: BBC Weather
 description: Daily forecast for a BBC Weather location.
 params:
@@ -17,9 +17,7 @@ fields:
   place:
     sel: title
     scope: page
-  day:
-    sel: .wr-day__title
-    attr: aria-label
+  day: .wr-date__long, .wr-date:not(:has(.wr-date__long))
   summary: .wr-day__weather-type-description
   high: .wr-day-temperature__high-value
   low: .wr-day-temperature__low-value
