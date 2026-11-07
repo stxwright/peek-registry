@@ -1,0 +1,24 @@
+format: 2
+id: com.ycombinator.news
+version: 1
+name: Hacker News
+description: Top stories from Hacker News.
+params: {}
+fetch:
+  url: https://news.ycombinator.com/
+  allow:
+  - news.ycombinator.com
+  wait: 'tr.athing'
+fields:
+  title: '.titleline > a'
+  site: '.sitestr'
+  url: {sel: ".titleline > a[href]", attr: "href"}
+columns:
+- title
+- site
+limit: 30
+rows: 'tr.athing'
+key: title
+title: Hacker News
+link: https://news.ycombinator.com/
+row_link: url

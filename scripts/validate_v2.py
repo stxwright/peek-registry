@@ -30,6 +30,8 @@ v2 recipe shape:
   columns: [field, ...]          # required, 1..10: aligned table
                                   # (single-item recipes transpose to label/value rows)
   link: "https://..."            # optional, host must be in allow
+  row_link: <field>              # optional, row-scoped field holding the
+                                  # per-row URL; requires rows
 """
 import re
 import sys
@@ -238,9 +240,19 @@ def validate(data, folder, known_versions):
             if ref not in set(params):
                 errors.append(f"link: {{{ref}}} must be a param")
 
+    row_link = data.get("row_link")
+    if row_link is not None:
+        if not isinstance(row_link, str) or row_link not in fields:
+            errors.append("row_link must name a field")
+        elif not is_row_field(fields[row_link]):
+            errors.append("row_link must name a row-scoped field")
+        if rows is None:
+            errors.append("row_link requires rows")
+
     # No unknown top-level keys (strict, like v1).
     allowed_top = {"format", "id", "version", "name", "description", "params",
-                    "fetch", "rows", "fields", "key", "limit", "title", "columns", "link"}
+                    "fetch", "rows", "fields", "key", "limit", "title", "columns",
+                    "link", "row_link"}
     for k in data:
         if k not in allowed_top:
             errors.append(f"unknown key: {k!r}")
